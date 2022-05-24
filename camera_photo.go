@@ -68,5 +68,7 @@ func (c *Camera) CapturePreview(buffer io.Writer) error {
 		return newError("Cannot capture preview", int(res))
 
 	}
-	return copyFile(gpFile, buffer)
+	err = copyFile(gpFile, buffer)
+	C.gp_file_free(gpFile)
+	return err
 }
