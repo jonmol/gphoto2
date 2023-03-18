@@ -135,11 +135,9 @@ func ListCameras() ([]string, error) {
 
 	for i := 0; i < size; i++ {
 		var cKey *C.char
-		var cVal *C.char
 
 		C.gp_list_get_name(cameraList, C.int(i), &cKey)
 		defer C.free(unsafe.Pointer(cKey))
-		defer C.free(unsafe.Pointer(cVal))
 
 		names = append(names, C.GoString(cKey))
 
