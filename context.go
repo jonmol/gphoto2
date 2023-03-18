@@ -23,7 +23,7 @@ package gphoto2
  * Boston, MA  02110-1301  USA
  */
 
-// #cgo LDFLAGS: -L/usr/lib/x86_64-linux-gnu -lgphoto2 -lgphoto2_port
+// #cgo LDFLAGS: -lgphoto2 -lgphoto2_port
 // #cgo CFLAGS: -I/usr/include
 // #include <gphoto2/gphoto2.h>
 // #include "callbacks.h"
