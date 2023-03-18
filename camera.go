@@ -119,3 +119,30 @@ func NewCamera(name string) (*Camera, error) {
 
 	return &Camera{gpCamera: gpCamera, Ctx: ctx}, nil
 }
+
+func ListCameras() ([]string, error) {
+	//ctx, err := NewContext()
+	names := make([]string, 0)
+	var cameraList *C.CameraList
+	C.gp_list_new(&cameraList)
+	defer C.free(unsafe.Pointer(cameraList))
+
+	size := int(C.gp_list_count(cameraList))
+
+	if size < 0 {
+		return nil, newError("Cannot get camera list", size)
+	}
+
+	for i := 0; i < size; i++ {
+		var cKey *C.char
+		var cVal *C.char
+
+		C.gp_list_get_name(cameraList, C.int(i), &cKey)
+		defer C.free(unsafe.Pointer(cKey))
+		defer C.free(unsafe.Pointer(cVal))
+
+		names = append(names, C.GoString(cKey))
+
+	}
+	return names, nil
+}
