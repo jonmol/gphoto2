@@ -49,7 +49,6 @@ func (c *Camera) LoadWidgets() error {
 }
 
 // GetSetting returns a CameraWidget if it can be found among the camera settings
-//
 func (c *Camera) GetSetting(name string) (*CameraWidget, error) {
 	if c.Settings == nil {
 		if err := c.LoadWidgets(); err != nil {
@@ -72,4 +71,13 @@ func (c *Camera) GetSetting(name string) (*CameraWidget, error) {
 		return c.Settings.Find(name), nil
 	}
 	return nil, nil
+}
+
+func (c *Camera) GetSettingByPath(path string) (*CameraWidget, error) {
+	if c.Settings == nil {
+		if err := c.LoadWidgets(); err != nil {
+			return nil, err
+		}
+	}
+	return c.Settings.FindByPath(path), nil
 }
