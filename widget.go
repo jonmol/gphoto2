@@ -83,6 +83,24 @@ func (w *CameraWidget) Find(name string) *CameraWidget {
 	return nil
 }
 
+func (w *CameraWidget) FindByPath(path string) *CameraWidget {
+	if path == "" {
+		return w
+	}
+	path = strings.TrimPrefix(path, "/")
+	pathComponents := strings.Split(path, "/")
+	if w.name == pathComponents[0] {
+		return w.FindByPath(strings.Join(pathComponents[1:], "/"))
+	}
+
+	for _, v := range w.children {
+		if v.name == pathComponents[0] {
+			return v.FindByPath(strings.Join(pathComponents[1:], "/"))
+		}
+	}
+	return nil
+}
+
 func (w CameraWidget) ID() int {
 	return w.id
 }
