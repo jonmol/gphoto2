@@ -24,7 +24,6 @@ package gphoto2
  */
 
 /*
- #cgo LDFLAGS:  -lgphoto2 -lgphoto2_port
  #include <stdlib.h>
  #include <gphoto2/gphoto2.h>
 */

@@ -13,6 +13,7 @@ var (
 	preview       bool   = false
 	previewSnap   bool   = false
 	printSettings bool   = false
+	multiCam      bool   = true
 	snapFile      string = "/tmp/snap_test.jpeg"
 	previewDir    string = "/tmp/gphoto2_preview"
 	shutterSpeed  string
@@ -24,6 +25,7 @@ var cameraLock sync.Mutex // we need to lock the camera so we're not trying two 
 func init() {
 	flag.IntVar(&previewAmount, "preview-shots", previewAmount, "Amount of shots to take in preview mode")
 
+	flag.BoolVar(&multiCam, "multicam", multiCam, "Loop over all connected cameras")
 	flag.BoolVar(&snap, "snap", snap, "Take a picture and write to -snap-file")
 	flag.BoolVar(&printSettings, "print-settings", printSettings, "Print camera settings")
 	flag.BoolVar(&preview, "preview", preview, "Enter preview mode")
@@ -36,10 +38,33 @@ func init() {
 
 func main() {
 	flag.Parse()
-	camera, err := gphoto2.NewCamera("")
-	if err != nil {
-		panic(fmt.Sprintf("%s: %s", "Failed to connect to camera, make sure it's around!", err))
+
+	if multiCam {
+		camInfos, err := gphoto2.ListCameras()
+		if err != nil {
+			panic(fmt.Sprintf("Failed to list cameras, make sure at least one is connected: %s", err))
+		}
+		for _, cInfo := range camInfos {
+			if camera, err := cInfo.Camera(); err != nil {
+				panic(fmt.Sprintf("Failed to connect to camera '%s' on port '%s' with error: %s", cInfo.Name(), cInfo.Port(), err))
+			} else {
+				doShizzle(camera)
+				camera.Exit()
+				camera.Free()
+			}
+		}
+
+	} else {
+		camera, err := gphoto2.NewCamera()
+		if err != nil {
+			panic(fmt.Sprintf("Failed to connect to camera, make sure it's around!: %s", err))
+		}
+		camera.Exit()
+		camera.Free()
 	}
+}
+
+func doShizzle(camera *gphoto2.Camera) {
 	printInfo(camera)
 	pFinished := make(chan bool)
 	if preview {
@@ -56,6 +81,4 @@ func main() {
 	if preview {
 		<-pFinished
 	}
-	camera.Exit()
-	camera.Free()
 }

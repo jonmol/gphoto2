@@ -23,8 +23,6 @@ package gphoto2
  * Boston, MA  02110-1301  USA
  */
 
-// #cgo LDFLAGS: -L/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu -lgphoto2 -lgphoto2_port
-// #cgo CFLAGS: -I/usr/include
 // #include <gphoto2/gphoto2.h>
 // #include "callbacks.h"
 // #include <stdlib.h>
@@ -48,8 +46,8 @@ func (c *Camera) CaptureDownload(buffer io.Writer, leaveOnCamera bool) error {
 	return file.DownloadImage(buffer, leaveOnCamera)
 }
 
-//CaptureImage captures image with current setings into camera's internal storage
-//call CameraFilePath.DownloadImage to
+// CaptureImage captures image with current setings into camera's internal storage
+// call CameraFilePath.DownloadImage to
 func (c *Camera) CaptureImage() (*CameraFilePath, error) {
 	cameraPath := cameraFilePathInternal{}
 	if res := C.gp_camera_capture(c.gpCamera, C.GP_CAPTURE_IMAGE, (*C.CameraFilePath)(unsafe.Pointer(&cameraPath)), c.Ctx.gpContext); res != GPOK {
@@ -58,7 +56,7 @@ func (c *Camera) CaptureImage() (*CameraFilePath, error) {
 	return newCameraFilePath(&cameraPath, c), nil
 }
 
-//CapturePreview  captures image preview and saves it in provided buffer
+// CapturePreview  captures image preview and saves it in provided buffer
 func (c *Camera) CapturePreview(buffer io.Writer) error {
 	gpFile, err := newGpFile()
 	if err != nil {

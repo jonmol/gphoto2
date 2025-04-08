@@ -4,7 +4,7 @@ Partial Go bindings for http://www.gphoto.org/proj/libgphoto2/
 
 ## History
 
-Much of the code is copied from and/or insipired of https://github.com/szank/gphoto which seems abandonend and had a couple of bugs. I waanted to write a simple stop motion program and this is an artefact from it. So it's claiming to or trying to cover the whole library but you can do a lot, and I'm very open to suggestions and/or merge requests. I only have access to one Nikon camera so it's not tested with any other brand, and it seems like all camera manufacturers have their own quirks.
+Much of the code is copied from and/or insipired of https://github.com/szank/gphoto which seems abandonend and had a couple of bugs. I wanted to write a simple 3D-scanner and stop motion program and this is an artefact from it. So it's not claiming to or trying to cover the whole library but you can do a lot, and I'm very open to suggestions and/or merge requests. I only have access to one Nikon camera so it's not tested with any other brand, and it seems like all camera manufacturers have their own quirks.
 
 ## Installlation
 
@@ -16,7 +16,7 @@ Under examples are there a couple of basic usage examples for setting shutter sp
 
 ```Go
 func main() {
-	camera, err := gphoto2.NewCamera("")
+	camera, err := gphoto2.NewCamera()
 	if err != nil {
 		panic(fmt.Sprintf("%s: %s", "Failed to connect to camera, make sure it's around!", err))
 	}

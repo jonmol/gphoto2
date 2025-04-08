@@ -1,3 +1,5 @@
+//go:build linux
+
 package gphoto2
 
 /** \file
@@ -23,27 +25,13 @@ package gphoto2
  * Boston, MA  02110-1301  USA
  */
 
+// #cgo LDFLAGS: -lgphoto2 -lgphoto2_port
 // #include <gphoto2/gphoto2.h>
-// #include "callbacks.h"
+// #include <stdlib.h>
+// #include <string.h>
+// #include <stdio.h>
 import "C"
 
-type Context struct {
-	gpContext *C.GPContext
-}
+func bind() {
 
-func (ctx *Context) free() {
-	if ctx.gpContext != nil {
-		C.gp_context_unref(ctx.gpContext)
-		ctx = nil
-	}
-}
-
-func NewContext() (*Context, error) {
-	var gpContext *C.GPContext
-	gpContext = C.gp_context_new()
-
-	if gpContext == nil {
-		return nil, newError("Could not initialize libgphoto2 context", Error)
-	}
-	return &Context{gpContext}, nil
 }

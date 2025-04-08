@@ -23,7 +23,6 @@ package gphoto2
  * Boston, MA  02110-1301  USA
  */
 
-// #cgo LDFLAGS: -lgphoto2 -lgphoto2_port
 // #include <gphoto2/gphoto2.h>
 // #include <stdlib.h>
 // #include <string.h>
@@ -36,7 +35,7 @@ import (
 	"unsafe"
 )
 
-//DeleteFile tries to delete file from the camera, and returns error if it fails
+// DeleteFile tries to delete file from the camera, and returns error if it fails
 func (camera *Camera) DeleteFile(path *CameraFilePath) error {
 	fileDir := C.CString(path.Folder)
 	defer C.free(unsafe.Pointer(fileDir))
@@ -51,7 +50,7 @@ func (camera *Camera) DeleteFile(path *CameraFilePath) error {
 	return nil
 }
 
-//ListFiles returns a list of files and folders on the camera
+// ListFiles returns a list of files and folders on the camera
 func (camera *Camera) ListFiles() ([]CameraStorageInfo, error) {
 	var gpCameraStorageInformation *C.CameraStorageInformation
 	var storageCount C.int
@@ -127,7 +126,7 @@ func (camera *Camera) recursiveListAllFiles(basedir *string, children *[]CameraF
 	return nil
 }
 
-//Hmm, this could be reduced to one func, and a lambda passed as an arg
+// Hmm, this could be reduced to one func, and a lambda passed as an arg
 func (camera *Camera) findAllChildDirectories(basedirPath *string) ([]string, error) {
 	var gpFileList *C.CameraList
 	var err error

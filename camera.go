@@ -23,8 +23,6 @@ package gphoto2
  * Boston, MA  02110-1301  USA
  */
 
-// #cgo LDFLAGS: -L/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu -lgphoto2 -lgphoto2_port
-// #cgo CFLAGS: -I/usr/include
 // #include <gphoto2/gphoto2.h>
 // #include <stdlib.h>
 import "C"
@@ -32,17 +30,17 @@ import (
 	"unsafe"
 )
 
-//Camera struct represents a camera connected to the computer
+// Camera struct represents a camera connected to the computer
 type Camera struct {
 	gpCamera *C.Camera
 	Ctx      *Context
 	Settings *CameraWidget
 }
 
-//Exit Closes a connection to the camera and therefore gives other application
-//the possibility to access the camera, too. It is recommended that you call
-//this function when you currently don't need the camera. The camera will get
-//reinitialized by gp_camera_init() automatically if you try to access the camera again.
+// Exit Closes a connection to the camera and therefore gives other application
+// the possibility to access the camera, too. It is recommended that you call
+// this function when you currently don't need the camera. The camera will get
+// reinitialized by gp_camera_init() automatically if you try to access the camera again.
 func (c Camera) Exit() error {
 	if c.gpCamera != nil {
 		if res := C.gp_camera_exit(c.gpCamera, c.Ctx.gpContext); res != GPOK {
@@ -96,8 +94,8 @@ func (c *Camera) Reset() error {
 	return nil
 }
 
-// NewCamera tries to connect to a camera with name name, if name is empty it tries with the first connected camera. It returns a new Camera struct.
-func NewCamera(name string) (*Camera, error) {
+// NewCamera tries to connect to a  the first connected camera. It returns a new Camera struct. Can be used if
+func NewCamera() (*Camera, error) {
 	ctx, err := NewContext()
 	if err != nil {
 		return nil, err
@@ -118,4 +116,8 @@ func NewCamera(name string) (*Camera, error) {
 	}
 
 	return &Camera{gpCamera: gpCamera, Ctx: ctx}, nil
+}
+
+func NewCameraFromList(info CameraListInfo) {
+
 }

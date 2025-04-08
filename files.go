@@ -23,7 +23,6 @@ package gphoto2
  * Boston, MA  02110-1301  USA
  */
 
-// #cgo LDFLAGS: -lgphoto2 -lgphoto2_port
 // #include <gphoto2/gphoto2.h>
 // #include <stdlib.h>
 // #include <string.h>
@@ -36,8 +35,8 @@ import (
 	"unsafe"
 )
 
-//CamersStorageInfo is a struct describing one of the camera's storage spaces (SD or CF cards for example)
-//Children is a directory tree present on the storage space
+// CamersStorageInfo is a struct describing one of the camera's storage spaces (SD or CF cards for example)
+// Children is a directory tree present on the storage space
 type CameraStorageInfo struct {
 	Description string
 	Capacity    uint64
@@ -54,7 +53,7 @@ type cameraFilePathInternal struct {
 	Folder [1024]uint8
 }
 
-//CameraFilePath is a path to a file or dir on the camera file system
+// CameraFilePath is a path to a file or dir on the camera file system
 type CameraFilePath struct {
 	Name     string
 	Folder   string
@@ -64,7 +63,7 @@ type CameraFilePath struct {
 	camera *Camera
 }
 
-//DownloadImage saves image pointed by path to the provided buffer. If leave on camera is set to false,the file will be deleted from the camera internal storage
+// DownloadImage saves image pointed by path to the provided buffer. If leave on camera is set to false,the file will be deleted from the camera internal storage
 func (file *CameraFilePath) DownloadImage(buffer io.Writer, leaveOnCamera bool) error {
 	gpFile, err := newGpFile()
 	if err != nil {

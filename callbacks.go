@@ -23,7 +23,6 @@ package gphoto2
  * Boston, MA  02110-1301  USA
  */
 
-// #cgo LDFLAGS: -lgphoto2 -lgphoto2_port
 // #include <gphoto2/gphoto2.h>
 // #include "callbacks.h"
 import "C"
@@ -31,21 +30,21 @@ import (
 	"fmt"
 )
 
-//ContextLogCallback defineds a function used to log info associated to lobgphoto2 context
+// ContextLogCallback defineds a function used to log info associated to lobgphoto2 context
 type ContextLogCallback func(string)
 
-//LogCallback defines a generic libgphoto2 logging function
+// LogCallback defines a generic libgphoto2 logging function
 type LogCallback func(int, string, string)
 
 // ContextIdleCallback should take Context, interface{} as its arguments
 type ContextIdleCallback func(Context)
 
 // ContextInfoCallback is the function logging info logs from  libgphoto2 context.
-//By default it logs everything to standard outout. You can assign your own method to this var
+// By default it logs everything to standard outout. You can assign your own method to this var
 var ContextInfoCallback ContextLogCallback
 
 // ContextErrorCallback is the function logging error logs from  libgphoto2 context.
-//By default it logs everything to standard outout. You can assign your own method to this var
+// By default it logs everything to standard outout. You can assign your own method to this var
 var ContextErrorCallback ContextLogCallback
 
 // LoggerCallback is the libgphoto2 logging function. Currently there is no possibility to add multiple log function like it is possible in
@@ -101,7 +100,6 @@ func wrapperIdleCallback(context *C.GPContext) {
 	}
 }
 
-//
 func SetIdleFunc(ctx *Context, fun ContextIdleCallback) {
 	IdleCallback = fun
 	C.gp_context_set_idle_func(ctx.gpContext, (*[0]byte)(C.ctx_idle_func), nil)
